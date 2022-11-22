@@ -2,6 +2,9 @@
   <div style="text-align: center; width: 400px;">
     <Stats/>
   </div>
+  <div style="text-align: center; width: auto">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
@@ -19,6 +22,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  align-items: center;
   color: #2c3e50;
   margin-top: 60px;
 }
