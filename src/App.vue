@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align: left; width: 400px">
+  <div style="text-align: center; width: 400px;">
     <Stats/>
   </div>
 </template>
@@ -22,4 +22,5 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
 </style>

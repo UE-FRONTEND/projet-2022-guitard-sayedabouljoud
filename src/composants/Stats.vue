@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <h1 id="statTitle">Game Stats</h1>
-    <div><ul class="list-group">
+  <div id="statsId">
+    <h1 id="title">Game Stats</h1>
+    <div>
+      <ul class="list-group">
       <li class="list-group-item">Temps moyen de jeu: {{ tempsMoyen }} minutes</li>
       <li class="list-group-item">nombre de tentatives moyennes: {{ nbTentativesMoyen }}</li>
       <li class="list-group-item">% de victoire: {{ pourcentageDeVictoires }}%</li>
@@ -17,17 +18,18 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>{{ anciensParties.date }}</td>
-            <td>{{ anciensParties.nbTentatives }}</td>
-            <td>{{ anciensParties.tempsDeJeu }}</td>
-            <td>{{ anciensParties.result }}</td>
-            <td>{{ anciensParties.mot }}</td>
+          <tr v-for="ap in anciensParties">
+            <td>{{ ap.date }}</td>
+            <td>{{ ap.nbTentatives }}</td>
+            <td>{{ ap.tempsDeJeu }}</td>
+            <td>{{ ap.result }}</td>
+            <td>{{ ap.mot }}</td>
           </tr>
           </tbody>
         </table>
       </li>
-    </ul></div>
+    </ul>
+    </div>
   </div>
 </template>
 
@@ -39,23 +41,19 @@ export default {
       tempsMoyen: 0,
       nbTentativesMoyen: 0,
       pourcentageDeVictoires: 0,
-      anciensParties: [
-        {
-          date: 22/11/2022,
-          nbTentatives: 5,
-          tempsDeJeu: 10,
-          result: true,
-          mot: 'hello'
-        }
-      ]
+      anciensParties: []
     }
+  },
+  computed: {
+
   }
 }
 </script>
 
 <style scoped>
-.statTitle{
+#title{
   text-align: center;
 }
+
 
 </style>
