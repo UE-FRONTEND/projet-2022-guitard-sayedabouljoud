@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <h2>Bienvenue sur Découvre le mot !</h2>
+    <h2>Bienvenue sur Découvre le mot!</h2>
     <p>Développé par Alexandre Guitard & Adam Sayed Abouljoud</p>
     <br/>
     <router-link :to="{name:'Game'}">
