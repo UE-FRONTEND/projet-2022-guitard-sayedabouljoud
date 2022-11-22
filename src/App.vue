@@ -1,13 +1,15 @@
 <template>
   <div style="text-align: left; width: 400px">
-    TODO
+    <Stats/>
   </div>
 </template>
 
 <script>
 
+import Stats from "@/composants/Stats";
 export default {
   name: 'App',
+  components: {Stats},
 }
 </script>
 
