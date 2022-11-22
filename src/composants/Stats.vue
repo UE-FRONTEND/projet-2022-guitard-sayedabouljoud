@@ -1,6 +1,6 @@
 <template>
-  <div id="statsId" style="width: 400px">
-    <h1 id="title">Game Stats</h1>
+  <div id="statsId">
+    <h1 id="title">Statistiques</h1>
     <div>
       <ul class="list-group">
       <li class="list-group-item">Temps moyen de jeu: {{ tempsMoyen }} minutes</li>
