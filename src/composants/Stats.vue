@@ -1,6 +1,6 @@
 <template>
   <div id="statsId">
-    <h1 id="title">Game Stats</h1>
+    <h1 id="title">Statistiques</h1>
     <div>
       <ul class="list-group">
       <li class="list-group-item">Temps moyen de jeu: {{ tempsMoyen }} minutes</li>
@@ -18,7 +18,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="ap in anciensParties">
+          <tr v-for="ap in anciensParties" v-bind:key="ap">
             <td>{{ ap.date }}</td>
             <td>{{ ap.nbTentatives }}</td>
             <td>{{ ap.tempsDeJeu }}</td>
