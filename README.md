@@ -1,6 +1,6 @@
 # Projet Front
 
-## Members: // TODO
+## Members: GUITARD Alexandre & ADAM SAYED ABOULJOUD
 
 ### TP group : 
 - [ ] TPA41
