@@ -1,7 +1,4 @@
 <template>
-  <div style="text-align: center; width: 400px;">
-    <Stats/>
-  </div>
   <div style="text-align: center; width: auto">
     <router-view></router-view>
   </div>

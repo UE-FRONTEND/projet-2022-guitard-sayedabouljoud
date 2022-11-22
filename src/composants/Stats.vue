@@ -1,5 +1,5 @@
 <template>
-  <div id="statsId">
+  <div id="statsId" style="width: 400px">
     <h1 id="title">Game Stats</h1>
     <div>
       <ul class="list-group">
@@ -18,7 +18,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="ap in anciensParties">
+          <tr v-for="ap in anciensParties" v-bind:key="ap">
             <td>{{ ap.date }}</td>
             <td>{{ ap.nbTentatives }}</td>
             <td>{{ ap.tempsDeJeu }}</td>
