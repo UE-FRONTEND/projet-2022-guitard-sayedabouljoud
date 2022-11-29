@@ -1,15 +1,13 @@
 <template>
-  <div style="text-align: center; width: auto">
+  <div style="width:auto;height: 100vh">
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 
-import Stats from "@/composants/Stats";
 export default {
   name: 'App',
-  components: {Stats},
 }
 </script>
 
