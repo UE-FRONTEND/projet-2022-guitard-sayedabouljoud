@@ -1,14 +1,21 @@
 <template>
-  <div class="game">
+  <div class="game container">
     <h1 style="text-align: center">Découvre le mot !</h1>
     <hr/>
-    <input id="text" type="text" v-model="txt"/>
-    <input id="btn" type="button" class="btn btn-primary" value="Valider"/>
-    <input id="btn" type="button" class="btn btn-primary" value="Abandoner"/>
-    <br/>
-    <timer/>
-    <keyboard class="keyboard"/>
-    <a>{{this.word}}</a>
+    <div class="row">
+      <div class="col">
+        <input id="text" type="text" v-model="txt"/>
+        <input id="btn" type="button" class="btn btn-primary" value="Valider"/>
+        <input id="btn" type="button" class="btn btn-primary" value="Abandoner" @click="showModal = true"/>
+        <br/>
+        <timer/>
+      </div>
+
+      <div class="col">
+        <keyboard class="keyboard"/>
+        <a>{{this.word}}</a>
+      </div>
+    </div>
   </div>
 </template>
 
