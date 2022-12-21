@@ -1,10 +1,11 @@
 <template>
+  <abandon :show1="showModal" @close="showModal = false"/>
   <div class="game">
     <h1 style="text-align: center">Découvre le mot !</h1>
     <hr/>
     <input id="text" type="text" v-model="txt"/>
     <input id="btn" type="button" class="btn btn-primary" value="Valider"/>
-    <input id="btn" type="button" class="btn btn-primary" value="Abandoner"/>
+    <input id="btn show-modal" type="button" class="btn btn-primary" value="Abandoner" @click="showModal = true"/>
     <br/>
     <timer/>
     <keyboard class="keyboard"/>
@@ -16,16 +17,19 @@
 import axios from "axios";
 import Timer from "@/composants/Timer";
 import Keyboard from "@/composants/Keyboard";
+import Abandon from "@/composants/Abandon";
 
 export default {
   name: "Game",
   components: {
     Timer,
-    Keyboard
+    Keyboard,
+    Abandon
   },
   data: function(){
     return{
-      word: ""
+      word: "",
+      showModal: false
     }
   },
   mounted(){
