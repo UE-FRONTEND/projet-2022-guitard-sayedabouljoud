@@ -17,7 +17,6 @@
         <a>{{this.word}}</a>
       </div>
     </div>
-
   </div>
 </template>
 
