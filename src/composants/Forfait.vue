@@ -10,7 +10,9 @@
             <br/>Bonne chance pour la prochaine fois.</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" @click="$emit('home')">Acceuil</button>
+          <router-link :to="{name:'Home'}">
+            <button type="button" class="btn btn-primary" @click="$emit('home')">Acceuil</button>
+          </router-link>
         </div>
       </div>
     </div>
