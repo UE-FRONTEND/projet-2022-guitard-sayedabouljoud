@@ -17,22 +17,6 @@
         <keyboard class="keyboard"/>
         <a class="test">{{this.wordToFind}}</a>
       </div>
-      <div class="view">
-        <table class="table table-bordered">
-          <thead>
-          <tr>
-            <th colspan="5" style="color:black;text-transform: none">Tentatives</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="i in words" :key="i">
-            <td v-for="j in 5" :key="j" v-bind:id="i + j" v-bind:style="colourize(i)">
-              {{i.charAt(j-1)}}
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   </div>
 </template>
@@ -105,22 +89,6 @@ export default {
       }
       this.colors.push(color)
     },
-    colourize: function(val){
-      for(let i=0;i<5;i++){
-        if(this.colors[val].at(i) === 0){
-          let dnl = document.getElementById(this.words[val]+i)
-          dnl.style.backgroundColor = "#D3D3D3"
-        }
-        else if(this.colors[val].at(i) === 1){
-          let dnl = document.getElementById(this.words[val]+i)
-          dnl.style.backgroundColor = "#FF8C00"
-        }
-        else if(this.colors[val].at(i) === 2){
-          let dnl = document.getElementById(this.words[val]+i)
-          dnl.style.backgroundColor = "#008000"
-        }
-      }
-    }
   },
   mounted(){
       axios
@@ -188,20 +156,9 @@ export default {
   display: grid;
   grid-template-columns: repeat(2,auto);
 }
-.view{
-  display: grid;
-  grid-column: 2/2;
-  margin-top: 20px;
-}
 
 .test{
   grid-column: 1/2;
 }
 
-.table, td{
-  text-transform: uppercase;
-  text-align: center;
-  vertical-align: center;
-  color: black;
-}
 </style>
