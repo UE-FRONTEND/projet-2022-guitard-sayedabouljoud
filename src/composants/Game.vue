@@ -18,13 +18,15 @@
       <div class="view">
         <table class="table table-bordered">
           <thead>
-            <tr>
-              <th>Tentative</th>
-            </tr>
+          <tr>
+            <th colspan="5" style="color:black;text-transform: none">Tentatives</th>
+          </tr>
           </thead>
           <tbody>
             <tr v-for="i in words" :key="i">
-              <td v-for="j in 5" :key="j">{{this.wordToTest.charAt(j)}}</td>
+              <td v-for="j in 5" :key="j" v-bind:id="i + j" v-bind:style="colourize(i)">
+                {{i.charAt(j-1)}}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -50,10 +52,10 @@ export default {
     return{
       txt:"",
       isWord: false,
-      wordToTest:"",
       wordToFind: "",
       showModal: false,
-      words: []
+      words: [],
+      colors:[]
     }
   },
   methods:{
@@ -64,18 +66,55 @@ export default {
           })
           .then(response => this.isWord = response.data.isWord)
           .catch(e => {console.error(e)})
-      this.wordToTest = this.txt
       if(!this.isWord){
         alert("Le mot n'est pas dans la liste")
       }
       else{
-        this.words.push(this.wordToTest)
-        if(this.wordToTest === this.wordToFind){
+        this.words.push(this.txt)
+        this.testPosition(this.txt)
+        if(this.txt === this.wordToFind){
           alert("Vous avez gagné !")
         }
+        console.log(this.colors[0][3])
       }
       this.txt = ""
     },
+    testPosition: function(val){
+      let color = []
+      for(let i=0;i<5;i++){
+        let lettre = val.charAt(i)
+        if(lettre === this.wordToFind.charAt(i)){
+          color.push(2)
+        }
+        else{
+          for(let j=0;j<5;j++){
+            if(lettre === this.wordToFind.charAt(j)){
+              color.push(1)
+            }
+          }
+          if(color.length == i) {
+            color.push(0)
+          }
+        }
+      }
+      this.colors.push(color)
+    },
+    colourize: function(val){
+      for(let i;i<5;i++){
+        if(this.colors[val][i] === 0){
+          let dnl = document.getElementById(this.words[val]+i)
+          dnl.style.backgroundColor = "#D3D3D3"
+        }
+        else if(this.colors[val][i] === 1){
+          let dnl = document.getElementById(this.words[val]+i)
+          dnl.style.backgroundColor = "#FF8C00"
+        }
+        else if(this.colors[val][i] === 2){
+          let dnl = document.getElementById(this.words[val]+i)
+          dnl.style.backgroundColor = "#008000"
+        }
+      }
+    }
   },
   mounted(){
       axios
@@ -145,8 +184,6 @@ export default {
 }
 .view{
   display: grid;
-  height: 200px;
-  width: 500px;
   grid-column: 2/2;
   margin-top: 20px;
 }
@@ -155,4 +192,10 @@ export default {
   grid-column: 1/2;
 }
 
+.table, td{
+  text-transform: uppercase;
+  text-align: center;
+  vertical-align: center;
+  color: black;
+}
 </style>
