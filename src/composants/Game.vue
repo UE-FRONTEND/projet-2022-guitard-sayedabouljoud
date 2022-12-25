@@ -3,6 +3,8 @@
   <div class="game_container">
     <h1 style="text-align: center">Découvre le mot !</h1>
     <hr/>
+    <abandon :show1="showModal1" @close="showModal1 = false" @forf="showModal1 = false; showModal2 = true"/>
+    <forfait :show2="showModal2" @home="showModal2 = false" :mot="this.wordToFind"/>
     <div class="game">
       <div class="play">
         <input id="text" type="text" v-model="txt" maxlength="5" @keyup.enter="addWord"/>
@@ -23,11 +25,11 @@
           </tr>
           </thead>
           <tbody>
-            <tr v-for="i in words" :key="i">
-              <td v-for="j in 5" :key="j" v-bind:id="i + j" v-bind:style="colourize(i)">
-                {{i.charAt(j-1)}}
-              </td>
-            </tr>
+          <tr v-for="i in words" :key="i">
+            <td v-for="j in 5" :key="j" v-bind:id="i + j" v-bind:style="colourize(i)">
+              {{i.charAt(j-1)}}
+            </td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -40,13 +42,15 @@ import axios from "axios";
 import Timer from "@/composants/Timer";
 import Keyboard from "@/composants/Keyboard";
 import Abandon from "@/composants/Abandon";
+import Forfait from "@/composants/Forfait";
 
 export default {
   name: "Game",
   components: {
     Timer,
     Keyboard,
-    Abandon
+    Abandon,
+    Forfait,
   },
   data: function(){
     return{
@@ -54,6 +58,8 @@ export default {
       isWord: false,
       wordToFind: "",
       showModal: false,
+      showModal1: false,
+      showModal2: false,
       words: [],
       colors:[]
     }
