@@ -100,16 +100,16 @@ export default {
       this.colors.push(color)
     },
     colourize: function(val){
-      for(let i;i<5;i++){
-        if(this.colors[val][i] === 0){
+      for(let i=0;i<5;i++){
+        if(this.colors[val].at(i) === 0){
           let dnl = document.getElementById(this.words[val]+i)
           dnl.style.backgroundColor = "#D3D3D3"
         }
-        else if(this.colors[val][i] === 1){
+        else if(this.colors[val].at(i) === 1){
           let dnl = document.getElementById(this.words[val]+i)
           dnl.style.backgroundColor = "#FF8C00"
         }
-        else if(this.colors[val][i] === 2){
+        else if(this.colors[val].at(i) === 2){
           let dnl = document.getElementById(this.words[val]+i)
           dnl.style.backgroundColor = "#008000"
         }
