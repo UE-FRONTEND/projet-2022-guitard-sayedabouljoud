@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">DOMMAGE!</h5>
+          <h5 class="modal-title">Fin de Partie</h5>
         </div>
         <div class="modal-body">
           <p>Le mot etait "{{ mot }}".
@@ -11,7 +11,7 @@
         </div>
         <div class="modal-footer">
           <router-link :to="{name:'Home'}">
-            <button type="button" class="btn btn-primary" @click="$emit('home')">Acceuil</button>
+            <button type="button" class="btn btn-primary" @click="$emit('home')">Accueil</button>
           </router-link>
         </div>
       </div>

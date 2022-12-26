@@ -7,6 +7,9 @@
 <script>
 export default {
   name: "Timer",
+  props:{
+    time: Boolean
+  },
   data: function (){
     return{
       min:10,
@@ -17,6 +20,7 @@ export default {
     decr: function () {
       if(this.min == 0 && this.sec == 0){
         clearInterval()
+        this.$emit('stop')
       }
       else if(this.sec == 0){
         this.min --
@@ -25,6 +29,7 @@ export default {
       else{
         this.sec --
       }
+      this.$emit('time', {min: this.min, sec:this.sec})
     },
     showTime: function(val){
       if(val<10){
@@ -34,6 +39,10 @@ export default {
     },
     bip: function(){
       setInterval(this.decr,1000)
+    },
+    stop: function(){
+      clearInterval()
+      this.$emit('time', this.min+':'+this.sec)
     }
   },
   mounted(){

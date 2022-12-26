@@ -1,21 +1,26 @@
 <template>
-  <abandon :show1="showModal" @close="showModal = false"/>
   <div class="game_container">
     <h1 style="text-align: center">Découvre le mot !</h1>
     <hr/>
-    <abandon :show1="showModal1" @close="showModal1 = false" @forf="showModal1 = false; showModal2 = true"/>
+    <abandon class="abandon" :show1="showModal1" @close="showModal1 = false" @forf="showModal1 = false; showModal2 = true"/>
     <forfait :show2="showModal2" @home="showModal2 = false" :mot="this.wordToFind"/>
     <div class="game">
       <div class="play">
         <input id="text" type="text" v-model="txt" maxlength="5" @keyup.enter="addWord"/>
         <input id="btn" type="button" class="btn btn-primary" :disabled="txt.length !=5" value="Valider" @click="addWord"/>
-        <input id="btn" type="button" class="btn btn-danger" value="Abandoner" @click="showModal = true"/>
+        <input id="btn" type="button" class="btn btn-danger" value="Abandonner" @click="showModal1 = true"/>
         <div class="result">
-          <timer class="timer"/>
+          <timer class="timer" @stop="showModal2 = true" @time="timer"/>
           <a class="tentatives">Tentatives restantes : {{count}}</a>
         </div>
         <keyboard class="keyboard"/>
-        <a class="test">{{this.wordToFind}}</a>
+      </div>
+      <div class="board">
+        <div class="grid" v-for="i in 6" :key="i">
+          <div class="grid-row" v-for="(j,index) in this.words.at(i-1)" :key="j">
+            <board :letter="j" :color="this.colors.at(i-1).at(index)"/>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -23,10 +28,12 @@
 
 <script>
 import axios from "axios";
+import {mapMutations} from 'vuex'
 import Timer from "@/composants/Timer";
 import Keyboard from "@/composants/Keyboard";
 import Abandon from "@/composants/Abandon";
 import Forfait from "@/composants/Forfait";
+import Board from "@/composants/Board"
 
 export default {
   name: "Game",
@@ -35,20 +42,32 @@ export default {
     Keyboard,
     Abandon,
     Forfait,
+    Board
   },
   data: function(){
     return{
       txt:"",
       isWord: false,
       wordToFind: "",
-      showModal: false,
+      time:{
+        min: Number,
+        sec: Number
+      },
       showModal1: false,
       showModal2: false,
       words: [],
-      colors:[]
+      colors: [],
+      attempt:{
+        attempts: 0,
+        date: new Date(),
+        time: this.time,
+        word: "",
+        result: Boolean
+      }
     }
   },
   methods:{
+    ...mapMutations(['addAttempt']),
     addWord: async function(){
       await axios
           .post("https://vue-project-backend-eta.vercel.app/api/check-word",{
@@ -57,37 +76,55 @@ export default {
           .then(response => this.isWord = response.data.isWord)
           .catch(e => {console.error(e)})
       if(!this.isWord){
-        alert("Le mot n'est pas dans la liste")
+        return alert("Le mot n'est pas dans la liste")
       }
       else{
-        this.words.push(this.txt)
+        this.words.push(this.txt.split(''))
         this.testPosition(this.txt)
+        this.attempt.attempts ++;
         if(this.txt === this.wordToFind){
           alert("Vous avez gagné !")
+          this.attempt.result = true
+          this.attempt.word = this.wordToFind
+          this.attempt.time = this.time
+          this.addAttempt(this.attempt)
         }
-        console.log(this.colors[0][3])
+        else{
+          if(this.attempt.attempts > 5){
+            this.showModal2 = true
+            this.attempt.result = false
+            this.attempt.word = this.wordToFind
+            this.attempt.time = this.time
+            this.addAttempt(this.attempt)
+          }
+        }
       }
+      console.log(this.colors.toString())
       this.txt = ""
     },
     testPosition: function(val){
       let color = []
       for(let i=0;i<5;i++){
-        let lettre = val.charAt(i)
-        if(lettre === this.wordToFind.charAt(i)){
-          color.push(2)
+        let letter = val.charAt(i)
+        if(letter === this.wordToFind.charAt(i)){
+          color.push('correct')
         }
         else{
           for(let j=0;j<5;j++){
-            if(lettre === this.wordToFind.charAt(j)){
-              color.push(1)
+            if(letter === this.wordToFind.charAt(j)){
+              color.push('partiel')
             }
           }
           if(color.length == i) {
-            color.push(0)
+            color.push('incorrect')
           }
         }
       }
       this.colors.push(color)
+    },
+    timer: function (val){
+      this.time.min = val.min
+      this.time.sec = val.sec
     },
   },
   mounted(){
@@ -102,7 +139,11 @@ export default {
   },
   computed:{
     count(){
-      return 6 - this.words.length
+      let count
+      if(this.words.length <= 6){
+        count = 6 - this.words.length
+      }
+      return count
     }
   }
 }
@@ -161,4 +202,23 @@ export default {
   grid-column: 1/2;
 }
 
+.grid{
+  display: flex;
+  gap: 3px;
+  width: auto;
+  height: auto;
+}
+
+.grid-row{
+  text-transform: uppercase;
+  width: 50px;
+  height: 50px;
+}
+
+.board{
+  display: grid;
+  grid-column: 2/2;
+  margin-top: 20px;
+  margin-left: 40px;
+}
 </style>
