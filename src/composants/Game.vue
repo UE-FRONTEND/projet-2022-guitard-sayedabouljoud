@@ -1,8 +1,11 @@
 <template>
   <div class="game_container">
-    <h1 style="text-align: center">Découvre le mot !</h1>
+    <div class="head">
+      <button class="btn btn-secondary btn-back" @click="showModal1=true">Retour</button>
+      <h1 class="titre">Découvre le mot !</h1>
+    </div>
     <hr/>
-    <abandon class="abandon" :show1="showModal1" @close="showModal1 = false" @forf="showModal1 = false; showModal2 = true"/>
+    <abandon class="abandon" :show1="showModal1" @close="showModal1 = false" @forf="showModal1 = false; showModal2 = true; this.finish()"/>
     <forfait :show2="showModal2" @home="showModal2 = false" :mot="this.wordToFind"/>
     <div class="game">
       <div class="play">
@@ -13,7 +16,7 @@
           <timer class="timer" @stop="showModal2 = true" @time="timer"/>
           <a class="tentatives">Tentatives restantes : {{count}}</a>
         </div>
-        <keyboard class="keyboard"/>
+        <keyboard class="keyboard" @letter="key" @suppr="keySuppr"/>
       </div>
       <div class="board">
         <div class="grid" v-for="i in 6" :key="i">
@@ -88,6 +91,7 @@ export default {
           this.attempt.word = this.wordToFind
           this.attempt.time = this.time
           this.addAttempt(this.attempt)
+          this.attempt.attempts = 0
         }
         else{
           if(this.attempt.attempts > 5){
@@ -96,6 +100,7 @@ export default {
             this.attempt.word = this.wordToFind
             this.attempt.time = this.time
             this.addAttempt(this.attempt)
+            this.attempt.attempts = 0
           }
         }
       }
@@ -126,6 +131,24 @@ export default {
       this.time.min = val.min
       this.time.sec = val.sec
     },
+    key: function(val){
+      if(this.txt.length < 5) {
+        this.txt = this.txt.concat(val)
+      }
+    },
+    keySuppr: function (){
+      if(this.txt.length > 0){
+        this.txt = this.txt.substring(0,this.txt.length -1)
+      }
+    },
+    finish: function(){
+      this.attempt.result = false
+      this.attempt.word = this.wordToFind
+      this.attempt.time = this.time
+      this.addAttempt(this.attempt)
+      console.log(this.attempt)
+      this.attempt.attempts = 0
+    }
   },
   mounted(){
       axios
@@ -221,4 +244,20 @@ export default {
   margin-top: 20px;
   margin-left: 40px;
 }
+
+.btn-back{
+  height: 38px;
+  width: 90px;
+  justify-self: center;
+  align-self: center;
+}
+
+.titre{
+}
+
+.head{
+  display: flex;
+  justify-content: center;
+}
+
 </style>

@@ -20,7 +20,7 @@ export default {
     decr: function () {
       if(this.min == 0 && this.sec == 0){
         clearInterval()
-        this.$emit('stop')
+        return this.$emit('stop')
       }
       else if(this.sec == 0){
         this.min --

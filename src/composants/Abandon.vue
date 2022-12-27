@@ -6,8 +6,8 @@
           <h5 class="modal-title">ATTENTION!</h5>
         </div>
         <div class="modal-body">
-          <p>Êtes vous sur de vouloir abandonner le jeu?
-            <br/>Celui ci se considère une defaite.</p>
+          <p>Êtes vous sur de vouloir abandonner le jeu ?
+            <br/>Cela sera considéré comme une defaite.</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="$emit('close')">Non</button>
