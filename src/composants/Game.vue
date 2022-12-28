@@ -1,17 +1,17 @@
 <template>
   <div class="game_container">
     <div class="head">
-      <button class="btn btn-secondary btn-back" @click="showModal1=true">Retour</button>
-      <h1 class="titre">Découvre le mot !</h1>
+        <button class="btn btn-secondary btn-back" @click="showModal1=true">Retour</button>
+        <h1 class="titre">Découvre le mot !</h1>
     </div>
     <hr/>
-    <abandon class="abandon" :show1="showModal1" @close="showModal1 = false" @forf="showModal1 = false; showModal2 = true; this.finish()"/>
+    <abandon id="mymodal" class="abandon" :show1="showModal1" @close="showModal1 = false" @forf="showModal1 = false; showModal2 = true; this.finish()"/>
     <forfait :show2="showModal2" @home="showModal2 = false" :mot="this.wordToFind"/>
     <div class="game">
       <div class="play">
         <input id="text" type="text" v-model="txt" maxlength="5" @keyup.enter="addWord"/>
         <input id="btn" type="button" class="btn btn-primary" :disabled="txt.length !=5" value="Valider" @click="addWord"/>
-        <input id="btn" type="button" class="btn btn-danger" value="Abandonner" @click="showModal1 = true"/>
+        <input id="btn" type="button" class="btn btn-danger" value="Abandonner" @click="showModal1 = true;" />
         <div class="result">
           <timer class="timer" @stop="showModal2 = true" @time="timer"/>
           <a class="tentatives">Tentatives restantes : {{count}}</a>
@@ -148,7 +148,7 @@ export default {
       this.addAttempt(this.attempt)
       console.log(this.attempt)
       this.attempt.attempts = 0
-    }
+    },
   },
   mounted(){
       axios
@@ -245,19 +245,14 @@ export default {
   margin-left: 40px;
 }
 
-.btn-back{
-  height: 38px;
-  width: 90px;
-  justify-self: center;
-  align-self: center;
-}
-
-.titre{
-}
-
 .head{
-  display: flex;
-  justify-content: center;
+  overflow: hidden;
+  align-content: center;
+}
+
+.btn-back{
+  float: left;
+  margin-top: 5px;
 }
 
 </style>

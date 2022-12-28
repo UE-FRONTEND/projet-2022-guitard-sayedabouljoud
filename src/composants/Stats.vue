@@ -20,8 +20,8 @@
           <tbody>
           <tr v-for="ap in anciensParties" v-bind:key="ap">
             <td>{{ ap.date }}</td>
-            <td>{{ ap.nbTentatives }}</td>
-            <td>{{ ap.tempsDeJeu }}</td>
+            <td>{{ ap.attempts }}</td>
+            <td>{{ ap.time }}</td>
             <td>{{ ap.result }}</td>
             <td>{{ ap.mot }}</td>
           </tr>
@@ -44,9 +44,6 @@ export default {
       anciensParties: []
     }
   },
-  computed: {
-
-  }
 }
 </script>
 
