@@ -1,9 +1,14 @@
 <template>
   <div id="statsId">
-    <h1 id="title">Statistiques</h1>
+    <div class="head">
+      <router-link :to="{name:'Home'}">
+        <button class="btn btn-secondary btn-back">Retour</button>
+      </router-link>
+      <h1 id="title">Statistiques</h1>
+    </div>
     <div>
       <ul class="list-group">
-      <li class="list-group-item">Temps moyen de jeu : {{ this.tempsMoyenJeu }} minutes</li>
+      <li class="list-group-item">Temps moyen de jeu : {{ this.tempsMoyenJeu }}</li>
       <li class="list-group-item">Nombre de tentatives moyennes : {{ this.tentativesMoyenne }}</li>
       <li class="list-group-item">Pourcentage de victoires : {{ this.pourcentageVictoires }}%</li>
       <li class="list-group-item">
@@ -65,13 +70,25 @@ export default {
     ...mapGetters(['getAll']),
     tempsMoyenJeu(){
       let tm = 0
+      let ts = 0
+      let tt = 0
       if(this.getAll.length === 0){
         return this.init
       }
       for(let i=0;i<this.getAll.length;i++){
-        tm += this.getAll.at(i).time.min
+        tm += (this.getAll.at(i).time.min)*60
+        ts += this.getAll.at(i).time.sec
+        if(ts>=60){
+          tm += 1
+          ts = ts-60
+        }
       }
-      return tm
+      tm = tm*60
+      tt = tm + ts
+      tt = tt/this.getAll.length
+      tm = Math.floor(tt/60)
+      ts = tt- tm
+      return tm + " minute(s) "+ ts +" secondes"
     },
     tentativesMoyenne(){
       let tm = 0
@@ -107,5 +124,15 @@ export default {
   text-align: center;
 }
 
+.head{
+  overflow: hidden;
+  align-content: center;
+}
+
+.btn-back{
+  float: left;
+  margin-top: 5px;
+  display: flex;
+}
 
 </style>

@@ -8,7 +8,7 @@ export const store = createStore({
     },
     getters: {
         getAttemptById(state, id){
-            return state.attempts.find(attempt => attempt.id == id)
+            return state.attempts.find(attempt => attempt.id === id)
         },
         getAll(state){
          return state.attempts

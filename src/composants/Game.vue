@@ -11,8 +11,8 @@
     <div class="game">
       <div class="play">
         <input id="text" type="text" v-model="txt" maxlength="5" @keyup.enter="addWord"/>
-        <input id="btn" type="button" class="btn btn-primary" :disabled="txt.length !=5" value="Valider" @click="addWord"/>
-        <input id="btn" type="button" class="btn btn-danger" value="Abandonner" @click="showModal1 = true; stopTimer=true"/>
+        <input id="btnValide" type="button" class="btn btn-primary" :disabled="txt.length !==5" value="Valider" @click="addWord"/>
+        <input id="btnAbandon" type="button" class="btn btn-danger" value="Abandonner" @click="showModal1 = true; stopTimer=true"/>
         <div class="result">
           <timer class="timer" @stop="showModal2 = true" @time="timer" :stop="stopTimer"/>
           <a class="tentatives">Tentatives restantes : {{count}}</a>
@@ -118,7 +118,7 @@ export default {
               color.push('partiel')
             }
           }
-          if(color.length == i) {
+          if(color.length === i) {
             color.push('incorrect')
           }
         }
@@ -144,9 +144,7 @@ export default {
       this.attempt.result = false
       this.attempt.word = this.wordToFind
       this.attempt.time = this.finalTime(this.time)
-      console.log(this.attempt.time)
       this.addAttempt(this.attempt)
-      console.log(this.attempt)
       this.attempt.attempts = 0
     },
     finishWin: function (){
@@ -154,7 +152,6 @@ export default {
       this.attempt.result = true
       this.attempt.word = this.wordToFind
       this.attempt.time = this.finalTime(this.time)
-      console.log(this.attempt.time)
       this.addAttempt(this.attempt)
     },
     finalTime: function(val){

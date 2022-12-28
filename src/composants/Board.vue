@@ -2,7 +2,7 @@
   <div id="letter-container" :class="{
     correct: color === 'correct',
     partiel: color === 'partiel',
-    incorrect: color === 'incorrect',
+    incorrect: color === 'incorrect'
   }">
     <p class="letter">
       {{letter}}

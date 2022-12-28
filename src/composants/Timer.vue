@@ -20,15 +20,15 @@ export default {
   },
   methods: {
     decr: function () {
-      if(this.min == 0 && this.sec == 0){
+      if(this.min === 0 && this.sec === 0){
         clearInterval()
         return this.$emit('stop')
       }
-      else if(this.sec == 0){
+      else if(this.sec === 0){
         this.min --
         this.sec = 59
       }
-      else if(this.stop == true){
+      else if(this.stop === true){
         clearInterval()
       }
       else{

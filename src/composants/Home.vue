@@ -4,10 +4,10 @@
     <p>Développé par Alexandre Guitard & Adam Sayed Abouljoud</p>
     <br/>
     <router-link :to="{name:'Game'}">
-      <input type="button" class="btn btn-primary mr-3" value="Nouvelle Partie"/>
+      <input id="newGame" type="button" class="btn btn-primary mr-3" value="Nouvelle Partie"/>
     </router-link>
     <router-link :to="{name:'Stats'}">
-      <input type="button" class="btn btn-primary" value="Anciennes Parties"/>
+      <input id="stats" type="button" class="btn btn-primary" value="Anciennes Parties"/>
     </router-link>
   </div>
 </template>
