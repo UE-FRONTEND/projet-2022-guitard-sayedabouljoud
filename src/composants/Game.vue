@@ -7,16 +7,26 @@
     <hr/>
     <abandon id="mymodal" class="abandon" :show1="showModal1" @close="showModal1 = false" @forf="showModal1 = false; showModal2 = true; this.finish()"/>
     <forfait :show2="showModal2" @home="showModal2 = false" :mot="this.wordToFind"/>
+
+      <button class="btn btn-secondary btn-back" @click="showModal1=true; stopTimer=true">Retour</button>
+      <h1 class="titre">Découvre le mot !</h1>
+    </div>
+    <hr/>
+    <abandon class="abandon" :show1="showModal1" @close="showModal1 = false; stopTimer=false" @forf="showModal1 = false; showModal2 = true"/>
+    <forfait :show2="showModal2" @home="showModal2 = false; finishLose()" :mot="this.wordToFind"/>
+    <victory :show-victory="showVictory" :mot="wordToFind" @home="showVictory=false; finishWin()"></victory>
     <div class="game">
       <div class="play">
         <input id="text" type="text" v-model="txt" maxlength="5" @keyup.enter="addWord"/>
         <input id="btn" type="button" class="btn btn-primary" :disabled="txt.length !=5" value="Valider" @click="addWord"/>
         <input id="btn" type="button" class="btn btn-danger" value="Abandonner" @click="showModal1 = true;" />
+        <input id="btn" type="button" class="btn btn-danger" value="Abandonner" @click="showModal1 = true; stopTimer=true"/>
         <div class="result">
-          <timer class="timer" @stop="showModal2 = true" @time="timer"/>
+          <timer class="timer" @stop="showModal2 = true" @time="timer" :stop="stopTimer"/>
           <a class="tentatives">Tentatives restantes : {{count}}</a>
         </div>
         <keyboard class="keyboard" @letter="key" @suppr="keySuppr"/>
+        <a>{{this.wordToFind}}</a>
       </div>
       <div class="board">
         <div class="grid" v-for="i in 6" :key="i">
@@ -26,7 +36,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -37,6 +46,7 @@ import Keyboard from "@/composants/Keyboard";
 import Abandon from "@/composants/Abandon";
 import Forfait from "@/composants/Forfait";
 import Board from "@/composants/Board"
+import Victory from "@/composants/Victory";
 
 export default {
   name: "Game",
@@ -45,7 +55,8 @@ export default {
     Keyboard,
     Abandon,
     Forfait,
-    Board
+    Board,
+    Victory
   },
   data: function(){
     return{
@@ -58,12 +69,14 @@ export default {
       },
       showModal1: false,
       showModal2: false,
+      showVictory: false,
+      stopTimer: false,
       words: [],
       colors: [],
       attempt:{
         attempts: 0,
         date: new Date(),
-        time: this.time,
+        time: undefined,
         word: "",
         result: Boolean
       }
@@ -86,25 +99,17 @@ export default {
         this.testPosition(this.txt)
         this.attempt.attempts ++;
         if(this.txt === this.wordToFind){
-          alert("Vous avez gagné !")
-          this.attempt.result = true
-          this.attempt.word = this.wordToFind
-          this.attempt.time = this.time
-          this.addAttempt(this.attempt)
-          this.attempt.attempts = 0
+          this.stopTimer = true
+          setTimeout(()=> {
+            this.showVictory = true },1000)
         }
         else{
           if(this.attempt.attempts > 5){
+            this.stopTimer = true
             this.showModal2 = true
-            this.attempt.result = false
-            this.attempt.word = this.wordToFind
-            this.attempt.time = this.time
-            this.addAttempt(this.attempt)
-            this.attempt.attempts = 0
           }
         }
       }
-      console.log(this.colors.toString())
       this.txt = ""
     },
     testPosition: function(val){
@@ -141,14 +146,37 @@ export default {
         this.txt = this.txt.substring(0,this.txt.length -1)
       }
     },
-    finish: function(){
+    finishLose: function(){
+      this.stopTimer = true
       this.attempt.result = false
       this.attempt.word = this.wordToFind
-      this.attempt.time = this.time
+      this.attempt.time = this.finalTime(this.time)
+      console.log(this.attempt.time)
       this.addAttempt(this.attempt)
       console.log(this.attempt)
       this.attempt.attempts = 0
     },
+    finishWin: function (){
+      this.stopTimer = true
+      this.attempt.result = true
+      this.attempt.word = this.wordToFind
+      this.attempt.time = this.finalTime(this.time)
+      console.log(this.attempt.time)
+      this.addAttempt(this.attempt)
+    },
+    finalTime: function(val){
+      let m
+      let s
+      m = 9 - val.min
+      s = 60 - val.sec
+      if(s === 60){
+        m = m + 1
+        s = 0
+      }
+      val.min = m
+      val.sec = s
+      return val
+    }
   },
   mounted(){
       axios
@@ -221,10 +249,6 @@ export default {
   grid-template-columns: repeat(2,auto);
 }
 
-.test{
-  grid-column: 1/2;
-}
-
 .grid{
   display: flex;
   gap: 3px;
@@ -253,6 +277,17 @@ export default {
 .btn-back{
   float: left;
   margin-top: 5px;
+  display: flex;
+}
+
+.head .btn-back{
+  height: 38px;
+  width: 90px;
+  align-self: flex-start;
+}
+
+.head .titre{
+  align-self: center;
 }
 
 </style>

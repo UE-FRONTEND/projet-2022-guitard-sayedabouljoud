@@ -8,12 +8,14 @@
 export default {
   name: "Timer",
   props:{
-    time: Boolean
+    time: Boolean,
+    stop: Boolean
   },
   data: function (){
     return{
       min:10,
-      sec:0
+      sec:0,
+      idTimer: undefined
     }
   },
   methods: {
@@ -25,6 +27,9 @@ export default {
       else if(this.sec == 0){
         this.min --
         this.sec = 59
+      }
+      else if(this.stop == true){
+        clearInterval()
       }
       else{
         this.sec --
@@ -39,10 +44,6 @@ export default {
     },
     bip: function(){
       setInterval(this.decr,1000)
-    },
-    stop: function(){
-      clearInterval()
-      this.$emit('time', this.min+':'+this.sec)
     }
   },
   mounted(){

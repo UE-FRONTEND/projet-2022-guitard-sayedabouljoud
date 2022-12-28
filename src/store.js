@@ -10,7 +10,9 @@ export const store = createStore({
         getAttemptById(state, id){
             return state.attempts.find(attempt => attempt.id == id)
         },
-        getAll: (state) => state.attempts
+        getAll(state){
+         return state.attempts
+        }
     },
     mutations: {
         addAttempt(state, attempt){
