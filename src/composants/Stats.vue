@@ -18,12 +18,6 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="ap in anciensParties" v-bind:key="ap">
-            <td>{{ ap.date }}</td>
-            <td>{{ ap.attempts }}</td>
-            <td>{{ ap.time }}</td>
-            <td>{{ ap.result }}</td>
-            <td>{{ ap.mot }}</td>
           <tr v-for="ap in this.getAll" v-bind:key="ap">
             <td>{{ ap.date.toLocaleString() }}</td>
             <td>{{ ap.attempts }}</td>
