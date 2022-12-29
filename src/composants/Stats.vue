@@ -76,18 +76,24 @@ export default {
         return this.init
       }
       for(let i=0;i<this.getAll.length;i++){
-        tm += (this.getAll.at(i).time.min)*60
+        tm += (this.getAll.at(i).time.min)
         ts += this.getAll.at(i).time.sec
         if(ts>=60){
           tm += 1
           ts = ts-60
         }
       }
+      console.log(tm)
+      console.log(ts)
       tm = tm*60
       tt = tm + ts
+      console.log(tm)
+      console.log(tt)
       tt = tt/this.getAll.length
       tm = Math.floor(tt/60)
-      ts = tt- tm
+      ts = Math.round(tt- (tm*60))
+      console.log(tm)
+      console.log(ts)
       return tm + " minute(s) "+ ts +" secondes"
     },
     tentativesMoyenne(){

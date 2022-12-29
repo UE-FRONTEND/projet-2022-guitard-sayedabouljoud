@@ -2,14 +2,14 @@
   <div v-if="showVictory" class="modal+" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header justify-content-center">
           <h5 class="modal-title">Victoire !</h5>
         </div>
         <div class="modal-body">
           <p>Vous avez trouvé le mot "{{ mot }}".
             <br/>Merci de votre participation.</p>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer justify-content-center">
           <router-link :to="{name:'Home'}">
             <button type="button" class="btn btn-primary" @click="$emit('home')">Accueil</button>
           </router-link>

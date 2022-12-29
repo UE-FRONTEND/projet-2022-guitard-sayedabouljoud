@@ -6,11 +6,11 @@
     </div>
     <hr/>
     <abandon class="abandon" :show1="showModal1" @close="showModal1 = false; stopTimer=false" @forf="showModal1 = false; showModal2 = true"/>
-    <forfait :show2="showModal2" @home="showModal2 = false; finishLose()" :mot="this.wordToFind"/>
+    <forfait id="forfait" :show2="showModal2" @home="showModal2 = false; finishLose()" :mot="this.wordToFind"/>
     <victory :show-victory="showVictory" :mot="wordToFind" @home="showVictory=false; finishWin()"></victory>
     <div class="game">
       <div class="play">
-        <input id="text" type="text" v-model="txt" maxlength="5" @keyup.enter="addWord"/>
+        <input id="text" type="text" v-model="txt" maxlength="5" placeholder="Entrer votre mot" @keyup.enter="addWord"/>
         <input id="btnValide" type="button" class="btn btn-primary" :disabled="txt.length !==5" value="Valider" @click="addWord"/>
         <input id="btnAbandon" type="button" class="btn btn-danger" value="Abandonner" @click="showModal1 = true; stopTimer=true"/>
         <div class="result">
@@ -18,10 +18,9 @@
           <a class="tentatives">Tentatives restantes : {{count}}</a>
         </div>
         <keyboard class="keyboard" @letter="key" @suppr="keySuppr"/>
-        <a>{{this.wordToFind}}</a>
       </div>
       <div class="board">
-        <div class="grid" v-for="i in 6" :key="i">
+        <div :id="'grid-'+ i" class="grid" v-for="i in 6" :key="i">
           <div class="grid-row" v-for="(j,index) in this.words.at(i-1)" :key="j">
             <board :letter="j" :color="this.colors.at(i-1).at(index)"/>
           </div>
@@ -202,11 +201,7 @@ export default {
   grid-column: 1/2;
   margin-top: 20px;
 }
-#btn{
-  width: 450px;
-  justify-self: center;
-  grid-column: 1/2;
-}
+
 .keyboard{
   grid-column: 1/2;
   margin-top: 40px;
